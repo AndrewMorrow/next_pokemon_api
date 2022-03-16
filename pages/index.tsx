@@ -11,10 +11,6 @@ const Home: NextPage = () => {
         <meta name="description" content="Pokemon Next app with Zustand" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className="container mx-auto">
-        <h1>Hellp</h1>
-      </main>
     </div>
   );
 };
