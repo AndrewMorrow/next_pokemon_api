@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import Image from "next/image";
-import pokeballIcon from "/src/assets/images/pokeball.png";
+import pokeballIcon from "../public/assets/images/pokeball.png";
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "My Teams", href: "#", current: false },

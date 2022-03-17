@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import useStore from "../src/store";
 import pokemonData from "../src/pokemonData.json";
-import { PokemonOverview } from "../components/PokemonOverview";
+import PokemonCard from "../components/PokemonCard";
 import { Key } from "react";
 
 interface Pokemon {
@@ -45,11 +45,11 @@ const Home: NextPage<Props> = ({ pokemon }) => {
       <Head>
         <title>Gotta Query Em All</title>
         <meta name="description" content="Pokemon Next app with Zustand" />
-        <link rel="icon" href="/favicon.ico" />
+       
       </Head>
-      <section>
-        {pokemon?.slice(0, 10).map((pokemon: Pokemon) => (
-          <PokemonOverview key={pokemon.id} pokemon={pokemon} />
+      <section className="flex items-center justify-center gap-12 flex-wrap my-10">
+        {pokemon?.slice(0, 9).map((pokemon: Pokemon) => (
+          <PokemonCard key={pokemon.id} pokemon={pokemon} />
         ))}
       </section>
     </>
