@@ -41,8 +41,8 @@ export async function getServerSideProps(context: any) {
 const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   // console.log(pokemon);
   return (
-    <div className="grid grid-cols-2 my-10">
-      <div>
+    <div className="md:grid grid-cols-2 my-10">
+      <div className="mb-4 md:mb-0">
         <h1 className="text-2xl font-bold ">{pokemon.name.english}</h1>
         <Image
           src={`/assets/images/${pokemon.name.english.toLowerCase()}.jpg`}
@@ -51,7 +51,7 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
           height={400}
         />
       </div>
-      <div>
+      <div className="pl-6">
         <h2 className="text-lg font-bold mb-4">Info</h2>
         <div className="flex">
           <h3 className="mb-6 font-semibold mr-2">Type:</h3>
@@ -64,7 +64,7 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
             ))}
           </ul>
         </div>
-        <div className="flex gap-20">
+        <div className="flex gap-10 lg:gap-20">
           <div className="flex flex-col">
             <h3 className="mb-2 font-semibold">Stats</h3>
             <ul className="space-y-1">
