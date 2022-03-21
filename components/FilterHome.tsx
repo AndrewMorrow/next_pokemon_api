@@ -4,14 +4,12 @@ import {
   SortDescendingIcon,
 } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
-import useStore from "../src/fakeStore";
 import { Pokemon } from "../src/globalTypes";
-// import useStore from "../src/store";
+import useStore from "../src/store";
 
 export default function FilterHome() {
   const [sorted, setSorted] = useState(false);
-  // const { setPokemonFilter } = useStore((state) => state.pokemon);
-  const { setPokemonFilter } = useStore((state) => state);
+  const { setPokemonFilter } = useStore((state) => state.pokemon);
   const filterInput = useRef<HTMLInputElement>(null);
 
   return (
@@ -32,7 +30,7 @@ export default function FilterHome() {
             type="input"
             name="filterInput"
             id="filter"
-            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded rounded-l-md pl-10 sm:text-sm bg-gray-800 py-2 text-white placeholder:text-gray-300"
+            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded rounded-l-md pl-12 sm:text-sm bg-gray-800 py-2 text-white placeholder:text-gray-300"
             placeholder="Search for a pokemon..."
             onChange={() => setPokemonFilter(filterInput?.current?.value)}
           />

@@ -2,13 +2,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-// import useStore from "../src/store";
+import useStore from "../src/store";
 import pokemonData from "../src/pokemonData.json";
 import PokemonCard from "../components/PokemonCard";
 import { Key, useEffect } from "react";
 import FilterHome from "../components/FilterHome";
 import { Pokemon } from "../src/globalTypes";
-import useStore from "../src/fakeStore";
 
 export async function getServerSideProps(context: any) {
   return {
@@ -22,10 +21,10 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ pokemon }) => {
-  // const { setPokemon } = useStore((state) => state.pokemon);
   const { setPokemon, filteredPokemon, filterInput } = useStore(
-    (state) => state
+    (state) => state.pokemon
   );
+
   // const state = useStore((state) => state);
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const Home: NextPage<Props> = ({ pokemon }) => {
       </Head>
       <FilterHome />
 
-      <section className="flex items-center justify-between  flex-wrap my-10">
+      <section className="flex items-center justify-around  flex-wrap my-10">
         {filterInput
           ? filteredPokemon?.map((pokemon: Pokemon) => (
               <PokemonCard key={pokemon.id} pokemon={pokemon} />
