@@ -3,11 +3,16 @@ import {
   FilterIcon,
   SortDescendingIcon,
 } from "@heroicons/react/solid";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import useStore from "../src/fakeStore";
 import { Pokemon } from "../src/globalTypes";
+// import useStore from "../src/store";
 
 export default function FilterHome() {
   const [sorted, setSorted] = useState(false);
+  // const { setPokemonFilter } = useStore((state) => state.pokemon);
+  const { setPokemonFilter } = useStore((state) => state);
+  const filterInput = useRef<HTMLInputElement>(null);
 
   return (
     <div className="max-w-lg mt-8">
@@ -17,37 +22,21 @@ export default function FilterHome() {
       >
         Search Pokemon
       </label>
-      <div className="mt-1 flex rounded-md shadow-sm">
+      <div className="mt-1 flex rounded-md shadow-md ">
         <div className="relative flex items-stretch flex-grow focus-within:z-10">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FilterIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <div className="absolute inset-y-0 left-0 px-2 flex items-center pointer-events-none border-r border-gray-400">
+            <FilterIcon className="h-5 w-5 text-white " aria-hidden="true" />
           </div>
           <input
-            type="email"
-            name="email"
-            id="email"
-            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-10 sm:text-sm border-gray-300"
-            placeholder="pokemon name"
+            ref={filterInput}
+            type="input"
+            name="filterInput"
+            id="filter"
+            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded rounded-l-md pl-10 sm:text-sm bg-gray-800 py-2 text-white placeholder:text-gray-300"
+            placeholder="Search for a pokemon..."
+            onChange={() => setPokemonFilter(filterInput?.current?.value)}
           />
         </div>
-        <button
-          type="button"
-          className="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-          onClick={() => setSorted(!sorted)}
-        >
-          {sorted ? (
-            <SortAscendingIcon
-              className="h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            />
-          ) : (
-            <SortDescendingIcon
-              className="h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            />
-          )}
-          <span>Sort</span>
-        </button>
       </div>
     </div>
   );

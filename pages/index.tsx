@@ -2,12 +2,13 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import useStore from "../src/store";
+// import useStore from "../src/store";
 import pokemonData from "../src/pokemonData.json";
 import PokemonCard from "../components/PokemonCard";
 import { Key, useEffect } from "react";
 import FilterHome from "../components/FilterHome";
 import { Pokemon } from "../src/globalTypes";
+import useStore from "../src/fakeStore";
 
 export async function getServerSideProps(context: any) {
   return {
@@ -21,18 +22,14 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ pokemon }) => {
-  const { setPokemonFilter, setPokemon } = useStore((state) => state.pokemon);
-  const state = useStore((state) => state);
+  // const { setPokemon } = useStore((state) => state.pokemon);
+  const { setPokemon, filteredPokemon, filterInput } = useStore(
+    (state) => state
+  );
+  // const state = useStore((state) => state);
 
   useEffect(() => {
-    console.log("running");
     setPokemon(pokemon);
-    console.log("pokemon set");
-    setPokemonFilter("bulb");
-    console.log("filter set");
-
-    console.log(state);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,10 +40,17 @@ const Home: NextPage<Props> = ({ pokemon }) => {
         <meta name="description" content="Pokemon Next app with Zustand" />
       </Head>
       <FilterHome />
+
       <section className="flex items-center justify-between  flex-wrap my-10">
-        {pokemon?.slice(0, 9).map((pokemon: Pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} />
-        ))}
+        {filterInput
+          ? filteredPokemon?.map((pokemon: Pokemon) => (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            ))
+          : pokemon
+              ?.slice(0, 9)
+              .map((pokemon: Pokemon) => (
+                <PokemonCard key={pokemon.id} pokemon={pokemon} />
+              ))}
       </section>
     </>
   );

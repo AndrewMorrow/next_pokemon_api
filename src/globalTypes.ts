@@ -6,7 +6,7 @@ export interface Pokemon {
     chinese: string;
     french: string;
   };
-  type: [string];
+  type: string[];
   base: {
     hp: number;
     attack: number;
