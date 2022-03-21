@@ -2,30 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import pokemonData from "../src/pokemonData.json";
-
-interface Pokemon {
-  id: 1;
-  name: {
-    english: string;
-    japanese: string;
-    chinese: string;
-    french: string;
-  };
-  type: [string];
-  base: {
-    hp: number;
-    attack: number;
-    defense: number;
-    special_attack: number;
-    special_defense: number;
-    speed: number;
-  };
-}
+import { Pokemon } from "../src/globalTypes";
 
 export const PokemonCard = (props: { pokemon: Pokemon }) => {
   return (
-    <div className="">
-      <h1 className="text-2xl font-bold text-center">
+    <div className="mb-10">
+      <h1 className="text-2xl font-bold text-center mb-4">
         {props.pokemon.name.english}
       </h1>
 

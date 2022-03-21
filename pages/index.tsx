@@ -5,26 +5,9 @@ import styles from "../styles/Home.module.css";
 import useStore from "../src/store";
 import pokemonData from "../src/pokemonData.json";
 import PokemonCard from "../components/PokemonCard";
-import { Key } from "react";
-
-interface Pokemon {
-  id: 1;
-  name: {
-    english: string;
-    japanese: string;
-    chinese: string;
-    french: string;
-  };
-  type: [string];
-  base: {
-    hp: number;
-    attack: number;
-    defense: number;
-    special_attack: number;
-    special_defense: number;
-    speed: number;
-  };
-}
+import { Key, useEffect } from "react";
+import FilterHome from "../components/FilterHome";
+import { Pokemon } from "../src/globalTypes";
 
 export async function getServerSideProps(context: any) {
   return {
@@ -38,16 +21,29 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ pokemon }) => {
-  // const user = useStore((state) => state.user);
+  const { setPokemonFilter, setPokemon } = useStore((state) => state.pokemon);
+  const state = useStore((state) => state);
+
+  useEffect(() => {
+    console.log("running");
+    setPokemon(pokemon);
+    console.log("pokemon set");
+    setPokemonFilter("bulb");
+    console.log("filter set");
+
+    console.log(state);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
       <Head>
         <title>Gotta Query Em All</title>
         <meta name="description" content="Pokemon Next app with Zustand" />
-       
       </Head>
-      <section className="flex items-center justify-center gap-12 flex-wrap my-10">
+      <FilterHome />
+      <section className="flex items-center justify-between  flex-wrap my-10">
         {pokemon?.slice(0, 9).map((pokemon: Pokemon) => (
           <PokemonCard key={pokemon.id} pokemon={pokemon} />
         ))}

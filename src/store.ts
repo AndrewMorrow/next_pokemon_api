@@ -1,4 +1,8 @@
+import { produce } from "immer";
 import create, { GetState, SetState } from "zustand";
+import { devtools } from "zustand/middleware";
+import PokemonCard from "../components/PokemonCard";
+import { Pokemon } from "../src/globalTypes";
 
 export type StoreSlice<T extends object, E extends object = T> = (
   set: SetState<E extends T ? E : E & T>,
@@ -19,25 +23,55 @@ const createUserSlice: StoreSlice<UserSlice> = (set, get) => ({
   },
 });
 
-interface CartSlice {
-  cart: {
+interface PokemonSlice {
+  pokemon: {
     id: string | null;
-    cartItems: [];
+    pokemonArr: [];
+    filterInput: string | null;
+    filteredPokemon: [];
+    setPokemon: (pokemonArr: [Pokemon]) => void;
+    setPokemonFilter: (filterInput: string) => void;
   };
 }
 
-const createCartSlice: StoreSlice<CartSlice> = (set, get) => ({
-  cart: {
+const createPokemonSlice: StoreSlice<PokemonSlice> = (set, get) => ({
+  pokemon: {
     id: null,
-    cartItems: [],
+    pokemonArr: [],
+    filterInput: null,
+    filteredPokemon: [],
+    setPokemon: (pokemonArr: [Pokemon]) =>
+      set(
+        produce((state) => ({
+          pokemon: {
+            ...state.pokemon,
+            pokemonArr,
+          },
+        }))
+      ),
+    setPokemonFilter: (filterInput: string) =>
+      set(
+        produce((state) => ({
+          pokemon: {
+            ...state.pokemon,
+            filterInput,
+            filteredPokemon: state.pokemon.pokemonArr.filter(
+              (pokemon: Pokemon) =>
+                pokemon.name.english
+                  .toLowerCase()
+                  .includes(filterInput.toLowerCase())
+            ),
+          },
+        }))
+      ),
   },
 });
 
 const createRootSlice = (set: SetState<any>, get: GetState<any>) => ({
   ...createUserSlice(set, get),
-  ...createCartSlice(set, get),
+  ...createPokemonSlice(set, get),
 });
 
-const useStore = create(createRootSlice);
+const useStore = create(devtools(createRootSlice));
 
 export default useStore;
