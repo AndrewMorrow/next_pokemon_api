@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 import seedData from "../src/pokemonData.json";
+const prisma = new PrismaClient();
 
 const formattedData = seedData.map((pokemon) => {
   return {
@@ -9,7 +9,7 @@ const formattedData = seedData.map((pokemon) => {
     japanese_name: pokemon.name.japanese,
     chinese_name: pokemon.name.chinese,
     french_name: pokemon.name.french,
-    // types: pokemon.type,
+    types: pokemon.type,
     hp: pokemon.base.hp,
     attack: pokemon.base.attack,
     defense: pokemon.base.defense,
