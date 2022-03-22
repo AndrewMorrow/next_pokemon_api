@@ -2,10 +2,35 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Pokemon {
+  id              Int      @id @unique
+  name            String   @unique @db.VarChar(255)
+  japanese_name   String
+  chinese_name    String
+  french_name     String
+  types           Type[]
+  hp              Int
+  attack          Int
+  defense         Int
+  special_attack  Int
+  special_defense Int
+  speed           Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Type {
+  id         Int       @id @default(autoincrement())
+  type       String
+  pokemon_id Pokemon[] @relation(references: [id])
 }
