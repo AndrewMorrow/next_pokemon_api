@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Pokemon, PrismaClient } from "@prisma/client";
 import seedData from "../src/pokemonData.json";
 const prisma = new PrismaClient();
 
@@ -23,43 +23,57 @@ const typesArr = [
   { type: "Dark" },
 ];
 
-const formattedData = seedData.map((pokemon) => {
-  return {
-    id: pokemon.id,
-    name: pokemon.name.english,
-    japanese_name: pokemon.name.japanese,
-    chinese_name: pokemon.name.chinese,
-    french_name: pokemon.name.french,
-    types: pokemon.type,
-    hp: pokemon.base.hp,
-    attack: pokemon.base.attack,
-    defense: pokemon.base.defense,
-    special_attack: pokemon.base.special_attack,
-    special_defense: pokemon.base.special_defense,
-    speed: pokemon.base.speed,
-  };
-});
-
 async function seeder() {
-  const createManyTypes = await prisma.type.createMany({
+  const deletePokemon = prisma.pokemon.deleteMany();
+  const deleteTypes = prisma.type.deleteMany();
+  await prisma.$transaction([deletePokemon, deleteTypes]);
+
+  await prisma.type.createMany({
     data: typesArr,
     skipDuplicates: true,
   });
 
-  // const createMany = await prisma.pokemon.createMany({
-  //   data: formattedData,
-  //   skipDuplicates: true,
-  // });
+  const dbTypesArr = await prisma.type.findMany();
 
-  // const pokemon = await prisma.pokemon.findUnique({
-  //   where: {
-  //     id: 1,
-  //   },
-  //   include: {
-  //     types: true,
-  //   },
-  // });
-  // console.log(pokemon);
+  const formattedData = seedData.map((pokemon) => {
+    const formattedPokemon: Pokemon = {
+      id: pokemon.id,
+      name: pokemon.name.english,
+      japanese_name: pokemon.name.japanese,
+      chinese_name: pokemon.name.chinese,
+      french_name: pokemon.name.french,
+      primary_type: 0,
+      secondary_type: null,
+      hp: pokemon.base.hp,
+      attack: pokemon.base.attack,
+      defense: pokemon.base.defense,
+      special_attack: pokemon.base.special_attack,
+      special_defense: pokemon.base.special_defense,
+      speed: pokemon.base.speed,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const primary_type = dbTypesArr?.find(
+      (type) => type.type === pokemon.type[0]
+    );
+
+    if (primary_type) formattedPokemon.primary_type = primary_type?.id;
+
+    if (pokemon.type.length > 1) {
+      const secondaryType = dbTypesArr?.find(
+        (type) => type.type === pokemon.type[1]
+      );
+
+      if (secondaryType) formattedPokemon.secondary_type = secondaryType?.id;
+    }
+    return formattedPokemon;
+  });
+
+  const createMany = await prisma.pokemon.createMany({
+    data: formattedData,
+  });
+  console.log(createMany);
 }
 
 seeder()
