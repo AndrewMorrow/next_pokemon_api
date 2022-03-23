@@ -2,6 +2,27 @@ import { PrismaClient } from "@prisma/client";
 import seedData from "../src/pokemonData.json";
 const prisma = new PrismaClient();
 
+const typesArr = [
+  { type: "Grass" },
+  { type: "Poison" },
+  { type: "Fire" },
+  { type: "Flying" },
+  { type: "Water" },
+  { type: "Bug" },
+  { type: "Normal" },
+  { type: "Electric" },
+  { type: "Ground" },
+  { type: "Fairy" },
+  { type: "Fighting" },
+  { type: "Psychic" },
+  { type: "Rock" },
+  { type: "Steel" },
+  { type: "Ice" },
+  { type: "Ghost" },
+  { type: "Dragon" },
+  { type: "Dark" },
+];
+
 const formattedData = seedData.map((pokemon) => {
   return {
     id: pokemon.id,
@@ -21,33 +42,24 @@ const formattedData = seedData.map((pokemon) => {
 
 async function seeder() {
   const createManyTypes = await prisma.type.createMany({
-    data: [
-      { type: "Grass" },
-      { type: "Poison" },
-      { type: "Fire" },
-      { type: "Flying" },
-      { type: "Water" },
-      { type: "Bug" },
-      { type: "Normal" },
-      { type: "Electric" },
-      { type: "Ground" },
-      { type: "Fairy" },
-      { type: "Fighting" },
-      { type: "Psychic" },
-      { type: "Rock" },
-      { type: "Steel" },
-      { type: "Ice" },
-      { type: "Ghost" },
-      { type: "Dragon" },
-      { type: "Dark" },
-    ],
+    data: typesArr,
     skipDuplicates: true,
   });
 
   // const createMany = await prisma.pokemon.createMany({
   //   data: formattedData,
-  //   skipDuplicates: true, // Skip 'Bobo'
+  //   skipDuplicates: true,
   // });
+
+  // const pokemon = await prisma.pokemon.findUnique({
+  //   where: {
+  //     id: 1,
+  //   },
+  //   include: {
+  //     types: true,
+  //   },
+  // });
+  // console.log(pokemon);
 }
 
 seeder()
