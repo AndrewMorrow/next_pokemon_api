@@ -20,34 +20,34 @@ const formattedData = seedData.map((pokemon) => {
 });
 
 async function seeder() {
-  // const createManyTypes = await prisma.type.createMany({
-  //   data: [
-  //     { type: "Grass" },
-  //     { type: "Poison" },
-  //     { type: "Fire" },
-  //     { type: "Flying" },
-  //     { type: "Water" },
-  //     { type: "Bug" },
-  //     { type: "Normal" },
-  //     { type: "Electric" },
-  //     { type: "Ground" },
-  //     { type: "Fairy" },
-  //     { type: "Fighting" },
-  //     { type: "Psychic" },
-  //     { type: "Rock" },
-  //     { type: "Steel" },
-  //     { type: "Ice" },
-  //     { type: "Ghost" },
-  //     { type: "Dragon" },
-  //     { type: "Dark" },
-  //   ],
-  //   skipDuplicates: true,
-  // });
-
-  const createMany = await prisma.pokemon.createMany({
-    data: formattedData,
-    skipDuplicates: true, // Skip 'Bobo'
+  const createManyTypes = await prisma.type.createMany({
+    data: [
+      { type: "Grass" },
+      { type: "Poison" },
+      { type: "Fire" },
+      { type: "Flying" },
+      { type: "Water" },
+      { type: "Bug" },
+      { type: "Normal" },
+      { type: "Electric" },
+      { type: "Ground" },
+      { type: "Fairy" },
+      { type: "Fighting" },
+      { type: "Psychic" },
+      { type: "Rock" },
+      { type: "Steel" },
+      { type: "Ice" },
+      { type: "Ghost" },
+      { type: "Dragon" },
+      { type: "Dark" },
+    ],
+    skipDuplicates: true,
   });
+
+  // const createMany = await prisma.pokemon.createMany({
+  //   data: formattedData,
+  //   skipDuplicates: true, // Skip 'Bobo'
+  // });
 }
 
 seeder()

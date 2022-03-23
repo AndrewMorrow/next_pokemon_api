@@ -13,24 +13,28 @@ datasource db {
 }
 
 model Pokemon {
-  id              Int      @id @unique
-  name            String   @unique @db.VarChar(255)
-  japanese_name   String
-  chinese_name    String
-  french_name     String
-  types           Type[]
-  hp              Int
-  attack          Int
-  defense         Int
-  special_attack  Int
-  special_defense Int
-  speed           Int
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                    Int      @id @unique
+  name                  String   @unique @db.VarChar(255)
+  japanese_name         String
+  chinese_name          String
+  french_name           String
+  primaryTypeRelation   Type     @relation("primary_type", fields: [primary_type], references: [id])
+  secondaryTypeRelation Type     @relation("secondary_type", fields: [secondary_type], references: [id])
+  primary_type          Int
+  secondary_type        Int
+  hp                    Int
+  attack                Int
+  defense               Int
+  special_attack        Int
+  special_defense       Int
+  speed                 Int
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 }
 
 model Type {
-  id         Int       @id @default(autoincrement())
-  type       String
-  pokemon_id Pokemon[] @relation(references: [id])
+  id                    Int      @id @default(autoincrement())
+  type                  String
+  primaryTypeRelation   Pokemon? @relation("primary_type")
+  secondaryTypeRelation Pokemon? @relation("secondary_type")
 }
