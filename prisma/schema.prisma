@@ -18,8 +18,6 @@ model Pokemon {
   japanese_name         String
   chinese_name          String
   french_name           String
-  primaryTypeRelation   Type     @relation("primary_type", fields: [primary_type], references: [id])
-  secondaryTypeRelation Type     @relation("secondary_type", fields: [secondary_type], references: [id])
   primary_type          Int
   secondary_type        Int
   hp                    Int
@@ -30,11 +28,15 @@ model Pokemon {
   speed                 Int
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
+  // Relations
+  primaryTypeRelation   Type     @relation("primary_type", fields: [primary_type], references: [id])
+  secondaryTypeRelation Type     @relation("secondary_type", fields: [secondary_type], references: [id])
 }
 
 model Type {
   id                    Int      @id @default(autoincrement())
   type                  String
+  // Relations
   primaryTypeRelation   Pokemon? @relation("primary_type")
   secondaryTypeRelation Pokemon? @relation("secondary_type")
 }
