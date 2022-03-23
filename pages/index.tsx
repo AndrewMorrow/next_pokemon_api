@@ -3,13 +3,22 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import useStore from "../src/store";
-import pokemonData from "../src/pokemonData.json";
+// import pokemonData from "../src/pokemonData.json";
 import PokemonCard from "../components/PokemonCard";
 import { Key, useEffect } from "react";
 import FilterHome from "../components/FilterHome";
 import { Pokemon } from "../src/globalTypes";
+import { prisma } from "../src/prismaConnect";
 
 export async function getServerSideProps(context: any) {
+  const pokemonData = await prisma.pokemon.findMany({
+    take: 9,
+    include: {
+      primaryTypeRelation: true,
+      secondaryTypeRelation: true,
+    },
+  });
+
   return {
     props: {
       pokemon: pokemonData,
@@ -45,11 +54,9 @@ const Home: NextPage<Props> = ({ pokemon }) => {
           ? filteredPokemon?.map((pokemon: Pokemon) => (
               <PokemonCard key={pokemon.id} pokemon={pokemon} />
             ))
-          : pokemon
-              ?.slice(0, 9)
-              .map((pokemon: Pokemon) => (
-                <PokemonCard key={pokemon.id} pokemon={pokemon} />
-              ))}
+          : pokemon?.map((pokemon: Pokemon) => (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            ))}
       </section>
     </>
   );

@@ -57,9 +57,7 @@ const createPokemonSlice: StoreSlice<PokemonSlice> = (set, get) => ({
             filterInput,
             filteredPokemon: state.pokemon.pokemonArr.filter(
               (pokemon: Pokemon) =>
-                pokemon.name.english
-                  .toLowerCase()
-                  .includes(filterInput.toLowerCase())
+                pokemon.name.toLowerCase().includes(filterInput.toLowerCase())
             ),
           },
         }))

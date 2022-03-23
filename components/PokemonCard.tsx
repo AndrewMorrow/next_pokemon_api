@@ -8,14 +8,14 @@ export const PokemonCard = (props: { pokemon: Pokemon }) => {
   return (
     <div className="mb-10">
       <h1 className="text-2xl font-bold text-center mb-4">
-        {props.pokemon.name.english}
+        {props.pokemon.name}
       </h1>
 
       <Link href={`/pokemon/${props.pokemon.id}`} passHref>
         <span className="cursor-pointer">
           <Image
-            src={`/assets/images/${props.pokemon.name.english.toLowerCase()}.jpg`}
-            alt={`${props.pokemon.name.english}`}
+            src={`/assets/images/${props.pokemon.name.toLowerCase()}.jpg`}
+            alt={`${props.pokemon.name}`}
             height={300}
             width={300}
           />

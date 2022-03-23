@@ -1,35 +1,23 @@
 import Image from "next/image";
 import React from "react";
-import pokemonData from "../../src/pokemonData.json";
-
-interface Pokemon {
-  id: 1;
-  name: {
-    english: string;
-    japanese: string;
-    chinese: string;
-    french: string;
-  };
-  type: [string];
-  base: {
-    hp: number;
-    attack: number;
-    defense: number;
-    special_attack: number;
-    special_defense: number;
-    speed: number;
-  };
-}
+import { prisma } from "../../src/prismaConnect";
+import { Pokemon } from "../../src/globalTypes";
 
 export async function getServerSideProps(context: any) {
   // console.log(context);
-  const pokemon = pokemonData.filter(
-    (pokemon) => pokemon.id == context.params.id
-  );
+  const pokemon = await prisma?.pokemon.findUnique({
+    where: {
+      id: Number(context.params.id),
+    },
+    include: {
+      primaryTypeRelation: true,
+      secondaryTypeRelation: true,
+    },
+  });
 
   return {
     props: {
-      pokemon: pokemon[0],
+      pokemon,
     }, // will be passed to the page component as props
   };
 }
@@ -43,10 +31,10 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   return (
     <div className="md:grid grid-cols-2 my-10">
       <div className="mb-4 md:mb-0">
-        <h1 className="text-2xl font-bold ">{pokemon.name.english}</h1>
+        <h1 className="text-2xl font-bold ">{pokemon.name}</h1>
         <Image
-          src={`/assets/images/${pokemon.name.english.toLowerCase()}.jpg`}
-          alt={pokemon.name.english}
+          src={`/assets/images/${pokemon.name.toLowerCase()}.jpg`}
+          alt={pokemon.name}
           width={400}
           height={400}
         />
@@ -56,33 +44,30 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
         <div className="flex">
           <h3 className="mb-6 font-semibold mr-2">Type:</h3>
           <ul className="flex gap-1">
-            {pokemon.type.map((type, i) => (
-              <li key={pokemon.id}>
-                {type}
-                {i !== pokemon.type.length - 1 && ","}
-              </li>
-            ))}
+            <li>
+              {`${pokemon.primaryTypeRelation.type}, ${pokemon.secondaryTypeRelation.type} `}
+            </li>
           </ul>
         </div>
         <div className="flex gap-10 lg:gap-20">
           <div className="flex flex-col">
             <h3 className="mb-2 font-semibold">Stats</h3>
             <ul className="space-y-1">
-              <li>hp: {pokemon.base.hp}</li>
-              <li>attack: {pokemon.base.attack}</li>
-              <li>defense: {pokemon.base.defense}</li>
-              <li>special_attack: {pokemon.base.special_attack}</li>
-              <li>special_defense: {pokemon.base.special_defense}</li>
-              <li>speed: {pokemon.base.speed}</li>
+              <li>hp: {pokemon.hp}</li>
+              <li>attack: {pokemon.attack}</li>
+              <li>defense: {pokemon.defense}</li>
+              <li>special_attack: {pokemon.special_attack}</li>
+              <li>special_defense: {pokemon.special_defense}</li>
+              <li>speed: {pokemon.speed}</li>
             </ul>
           </div>
           <div>
             <h3 className="mb-1 font-semibold">Translations</h3>
             <ul className="space-y-1">
-              <li>english: {pokemon.name.english}</li>
-              <li> japanese: {pokemon.name.japanese}</li>
-              <li> chinese: {pokemon.name.chinese}</li>
-              <li> french: {pokemon.name.french}</li>
+              <li>english: {pokemon.name}</li>
+              <li> japanese: {pokemon.japanese_name}</li>
+              <li> chinese: {pokemon.chinese_name}</li>
+              <li> french: {pokemon.french_name}</li>
             </ul>
           </div>
         </div>

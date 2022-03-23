@@ -1,6 +1,6 @@
-import { Pokemon, PrismaClient } from "@prisma/client";
+import { Pokemon } from "@prisma/client";
 import seedData from "../src/pokemonData.json";
-const prisma = new PrismaClient();
+import { prisma } from "../src/prismaConnect";
 
 const typesArr = [
   { type: "Grass" },
@@ -50,8 +50,6 @@ async function seeder() {
       special_attack: pokemon.base.special_attack,
       special_defense: pokemon.base.special_defense,
       speed: pokemon.base.speed,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     };
 
     const primary_type = dbTypesArr?.find(
