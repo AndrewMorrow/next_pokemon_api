@@ -65,9 +65,31 @@ const createPokemonSlice: StoreSlice<PokemonSlice> = (set, get) => ({
   },
 });
 
+interface PaginationSlice {
+  pagination: {
+    currentPage: number;
+  };
+}
+
+const createPaginationSlice: StoreSlice<PaginationSlice> = (set, get) => ({
+  pagination: {
+    currentPage: 1,
+    setCurrentPage: (newPage: number) =>
+      set(
+        produce((state) => ({
+          pagination: {
+            ...state.pagination,
+            currentPage: newPage,
+          },
+        }))
+      ),
+  },
+});
+
 const createRootSlice = (set: SetState<any>, get: GetState<any>) => ({
   ...createUserSlice(set, get),
   ...createPokemonSlice(set, get),
+  ...createPaginationSlice(set, get),
 });
 
 const useStore = create(devtools(createRootSlice));

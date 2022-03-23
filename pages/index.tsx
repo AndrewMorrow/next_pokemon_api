@@ -9,6 +9,7 @@ import { Key, useEffect } from "react";
 import FilterHome from "../components/FilterHome";
 import { Pokemon } from "../src/globalTypes";
 import { prisma } from "../src/prismaConnect";
+import Pagination from "../components/Pagination";
 
 export async function getServerSideProps(context: any) {
   const pokemonData = await prisma.pokemon.findMany({
@@ -33,10 +34,12 @@ const Home: NextPage<Props> = ({ pokemon }) => {
   const { setPokemon, filteredPokemon, filterInput } = useStore(
     (state) => state.pokemon
   );
+  const { currentPage } = useStore((state) => state.pagination);
 
   // const state = useStore((state) => state);
 
   useEffect(() => {
+    console.log("mounts");
     setPokemon(pokemon);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -58,6 +61,7 @@ const Home: NextPage<Props> = ({ pokemon }) => {
               <PokemonCard key={pokemon.id} pokemon={pokemon} />
             ))}
       </section>
+      <Pagination />
     </>
   );
 };

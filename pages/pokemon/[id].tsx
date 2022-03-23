@@ -45,7 +45,9 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
           <h3 className="mb-6 font-semibold mr-2">Type:</h3>
           <ul className="flex gap-1">
             <li>
-              {`${pokemon.primaryTypeRelation.type}, ${pokemon.secondaryTypeRelation.type} `}
+              {pokemon?.primaryTypeRelation?.type}
+              {pokemon?.secondaryTypeRelation &&
+                `, ${pokemon?.secondaryTypeRelation?.type}`}
             </li>
           </ul>
         </div>
