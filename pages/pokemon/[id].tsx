@@ -46,10 +46,10 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   return (
     <div className="md:grid grid-cols-2 my-10">
       <div className="mb-4 md:mb-0">
-        <h1 className="text-2xl font-bold ">{pokemon.name}</h1>
+        <h1 className="text-2xl font-bold ">{pokemon?.name}</h1>
         <Image
-          src={`/assets/images/${pokemon.name.toLowerCase()}.jpg`}
-          alt={pokemon.name}
+          src={`/assets/images/${pokemon?.name.toLowerCase()}.jpg`}
+          alt={pokemon?.name}
           width={400}
           height={400}
         />
@@ -70,21 +70,21 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
           <div className="flex flex-col">
             <h3 className="mb-2 font-semibold">Stats</h3>
             <ul className="space-y-1">
-              <li>hp: {pokemon.hp}</li>
-              <li>attack: {pokemon.attack}</li>
-              <li>defense: {pokemon.defense}</li>
-              <li>special_attack: {pokemon.special_attack}</li>
-              <li>special_defense: {pokemon.special_defense}</li>
-              <li>speed: {pokemon.speed}</li>
+              <li>hp: {pokemon?.hp}</li>
+              <li>attack: {pokemon?.attack}</li>
+              <li>defense: {pokemon?.defense}</li>
+              <li>special_attack: {pokemon?.special_attack}</li>
+              <li>special_defense: {pokemon?.special_defense}</li>
+              <li>speed: {pokemon?.speed}</li>
             </ul>
           </div>
           <div>
             <h3 className="mb-1 font-semibold">Translations</h3>
             <ul className="space-y-1">
-              <li>english: {pokemon.name}</li>
-              <li> japanese: {pokemon.japanese_name}</li>
-              <li> chinese: {pokemon.chinese_name}</li>
-              <li> french: {pokemon.french_name}</li>
+              <li>english: {pokemon?.name}</li>
+              <li> japanese: {pokemon?.japanese_name}</li>
+              <li> chinese: {pokemon?.chinese_name}</li>
+              <li> french: {pokemon?.french_name}</li>
             </ul>
           </div>
         </div>
