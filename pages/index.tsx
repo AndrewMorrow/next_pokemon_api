@@ -44,10 +44,6 @@ const Home: NextPage<Props> = ({ pokemonProps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    filteredPokemon.length > 0 ? setUseFiltered(true) : setUseFiltered(false);
-  }, [filteredPokemon, setUseFiltered]);
-
   return (
     <>
       <Head>

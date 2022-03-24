@@ -10,9 +10,11 @@ import useStore from "../src/store";
 export default function FilterHome() {
   const [sorted, setSorted] = useState(false);
   const { setPokemonFilter } = useStore((state) => state.pokemon);
+  const { resetSliceAmount } = useStore((state) => state.pagination);
   const filterInput = useRef<HTMLInputElement>(null);
 
   const handleFilterChange = (currentValue: string | undefined) => {
+    resetSliceAmount();
     if (!currentValue) setPokemonFilter(currentValue);
     else {
       setPokemonFilter(currentValue);

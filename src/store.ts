@@ -79,8 +79,7 @@ interface PaginationSlice {
     amountPerPage: number;
     filteredPage: number;
     setFilteredPage: (newPage: number) => void;
-    useFiltered: boolean;
-    setUseFiltered: (bool: boolean) => void;
+    resetSliceAmount: () => void;
   };
 }
 
@@ -116,17 +115,16 @@ const createPaginationSlice: StoreSlice<PaginationSlice> = (set, get) => ({
           },
         }))
       ),
-    amountPerPage: 18,
-    useFiltered: false,
-    setUseFiltered: (bool: boolean) =>
+    resetSliceAmount: () =>
       set(
         produce((state) => ({
           pagination: {
             ...state.pagination,
-            useFiltered: bool,
+            sliceAmount: 0,
           },
         }))
       ),
+    amountPerPage: 18,
   },
 });
 
