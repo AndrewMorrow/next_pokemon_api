@@ -11,7 +11,7 @@ import { Pokemon } from "../src/globalTypes";
 import { prisma } from "../src/prismaConnect";
 import Pagination from "../components/Pagination";
 
-export async function getServerSideProps(context: any) {
+export async function getStaticProps(context: any) {
   const pokemonData = await prisma.pokemon.findMany({
     include: {
       primaryTypeRelation: true,

@@ -35,15 +35,15 @@ export default function Navbar() {
                 </Disclosure.Button>
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex-shrink-0 flex items-center w-10">
-                  <Link href="/" passHref>
+                <Link href="/" passHref>
+                  <div className="flex-shrink-0 flex items-center w-10">
                     <Image
                       className="block lg:hidden h-8 w-auto"
                       src={pokeballIcon}
                       alt="pokeball"
                     />
-                  </Link>
-                </div>
+                  </div>
+                </Link>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (

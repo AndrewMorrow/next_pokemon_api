@@ -3,7 +3,22 @@ import React from "react";
 import { prisma } from "../../src/prismaConnect";
 import { Pokemon } from "../../src/globalTypes";
 
-export async function getServerSideProps(context: any) {
+export async function getStaticPaths() {
+  const pokemonData = await prisma.pokemon.findMany({});
+
+  const paths = pokemonData.map((pokemon) => ({
+    params: {
+      id: String(pokemon.id),
+    },
+  }));
+
+  return {
+    paths,
+    fallback: true,
+  };
+}
+
+export async function getStaticProps(context: any) {
   // console.log(context);
   const pokemon = await prisma?.pokemon.findUnique({
     where: {
