@@ -12,6 +12,13 @@ export default function FilterHome() {
   const { setPokemonFilter } = useStore((state) => state.pokemon);
   const filterInput = useRef<HTMLInputElement>(null);
 
+  const handleFilterChange = (currentValue: string | undefined) => {
+    if (!currentValue) setPokemonFilter(currentValue);
+    else {
+      setPokemonFilter(currentValue);
+    }
+  };
+
   return (
     <div className="max-w-lg mt-8">
       <label
@@ -32,7 +39,7 @@ export default function FilterHome() {
             id="filter"
             className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded rounded-l-md pl-12 sm:text-sm bg-gray-800 py-2 text-white placeholder:text-gray-300"
             placeholder="Search for a pokemon..."
-            onChange={() => setPokemonFilter(filterInput?.current?.value)}
+            onChange={() => handleFilterChange(filterInput?.current?.value)}
           />
         </div>
       </div>

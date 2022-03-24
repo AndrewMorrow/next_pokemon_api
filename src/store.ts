@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import { produce } from "immer";
 import create, { GetState, SetState } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -56,8 +57,12 @@ const createPokemonSlice: StoreSlice<PokemonSlice> = (set, get) => ({
             ...state.pokemon,
             filterInput,
             filteredPokemon: state.pokemon.pokemonArr.filter(
-              (pokemon: Pokemon) =>
-                pokemon.name.toLowerCase().includes(filterInput.toLowerCase())
+              (pokemon: Pokemon) => {
+                if (!filterInput) return false;
+                return pokemon.name
+                  .toLowerCase()
+                  .includes(filterInput.toLowerCase());
+              }
             ),
           },
         }))
@@ -68,6 +73,14 @@ const createPokemonSlice: StoreSlice<PokemonSlice> = (set, get) => ({
 interface PaginationSlice {
   pagination: {
     currentPage: number;
+    setCurrentPage: (newPage: number) => void;
+    sliceAmount: number;
+    setSliceAmount: (amount: number) => void;
+    amountPerPage: number;
+    filteredPage: number;
+    setFilteredPage: (newPage: number) => void;
+    useFiltered: boolean;
+    setUseFiltered: (bool: boolean) => void;
   };
 }
 
@@ -80,6 +93,37 @@ const createPaginationSlice: StoreSlice<PaginationSlice> = (set, get) => ({
           pagination: {
             ...state.pagination,
             currentPage: newPage,
+          },
+        }))
+      ),
+    filteredPage: 1,
+    setFilteredPage: (newPage: number) =>
+      set(
+        produce((state) => ({
+          pagination: {
+            ...state.pagination,
+            filteredPage: newPage,
+          },
+        }))
+      ),
+    sliceAmount: 0,
+    setSliceAmount: (amount) =>
+      set(
+        produce((state) => ({
+          pagination: {
+            ...state.pagination,
+            sliceAmount: state.pagination.sliceAmount + amount,
+          },
+        }))
+      ),
+    amountPerPage: 18,
+    useFiltered: false,
+    setUseFiltered: (bool: boolean) =>
+      set(
+        produce((state) => ({
+          pagination: {
+            ...state.pagination,
+            useFiltered: bool,
           },
         }))
       ),
