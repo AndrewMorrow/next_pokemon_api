@@ -50,8 +50,8 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
         <Image
           src={`/assets/images/${pokemon?.name.toLowerCase()}.jpg`}
           alt={pokemon?.name}
-          width={400}
-          height={400}
+          width={600}
+          height={600}
         />
       </div>
       <div className="pl-6">
