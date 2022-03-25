@@ -52,6 +52,11 @@ export default function Pagination() {
       ? setFilteredPage(newPage)
       : setCurrentPage(newPage > 0 ? newPage : 1);
     setSliceAmount(newSliceAmount);
+    window.scrollTo({
+      behavior: "smooth",
+      left: 0,
+      top: 0,
+    });
   };
 
   // useEffect(()=>{
