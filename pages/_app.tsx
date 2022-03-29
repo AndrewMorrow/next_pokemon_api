@@ -4,12 +4,26 @@ import Layout from "../components/Layout";
 import { SessionProvider } from "next-auth/react";
 import Auth from "../components/Auth";
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+interface ComponentProps {
+  Component: AppProps["Component"] & {
+    auth?: {
+      restricted?: boolean;
+      role?: string;
+      checkAdmin?: boolean;
+    };
+  };
+  pageProps: AppProps["pageProps"];
+}
+
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: ComponentProps) {
   return (
     <SessionProvider session={session}>
       <Layout>
         {Component.auth ? (
-          <Auth>
+          <Auth component={Component}>
             <Component {...pageProps} />
           </Auth>
         ) : (

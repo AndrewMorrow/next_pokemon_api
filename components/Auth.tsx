@@ -1,17 +1,30 @@
 import React from "react";
 import { useSession, signIn } from "next-auth/react";
+import type { AppProps } from "next/app";
 
 interface Props {
   children: JSX.Element;
+  component: AppProps["Component"] & {
+    auth?: {
+      restricted?: boolean;
+      role?: string;
+      checkAdmin?: boolean;
+    };
+  };
 }
 
-const Auth = ({ children }: Props) => {
-  const { data: session, status } = useSession();
+const Auth = ({ children, component }: Props) => {
+  const { data: session, status } = useSession({ required: true });
+
   const isUser = !!session?.user;
   React.useEffect(() => {
     if (status === "loading") return;
     if (!isUser) signIn();
   }, [isUser, status]);
+
+  if (component?.auth?.checkAdmin) {
+    // if (component?.auth?.role === session?.user?.role) return children;
+  }
 
   if (isUser) {
     return children;

@@ -1,9 +1,11 @@
 import React from "react";
 
-const Hello = () => {
+const Hello = (props: any) => {
+  console.log(props);
   return <div>Hello</div>;
 };
 
-Hello.auth = true;
-
+Hello.auth = {
+  restricted: true,
+};
 export default Hello;
