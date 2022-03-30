@@ -20,10 +20,15 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-  // jwt: {
-  //   secret: process.env.NEXT_AUTH_JWT_SECRET,
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error",
+  },
+  // theme: {
+  //   colorScheme: "dark",
+  //   brandColor: "red",
+  //   logo: "/assets/images/pokeball.png",
   // },
-
   callbacks: {
     async session({ session, user, token }) {
       session.role = user.role;
