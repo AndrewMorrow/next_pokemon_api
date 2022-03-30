@@ -9,8 +9,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getSession({ req });
-  console.log("req.body", req.body);
-  console.log(session);
+
   if (!session) {
     return res.status(200).json({ message: "You are not logged in" });
   }
@@ -20,5 +19,5 @@ export default async function handler(
   if (!user) {
     return res.status(200).json({ message: "User not found" });
   }
-  res.status(200).json({ user });
+  res.status(200).json({ session });
 }

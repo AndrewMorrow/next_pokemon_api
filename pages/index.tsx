@@ -64,8 +64,9 @@ const Home: NextPage<Props> = ({ pokemonProps }) => {
       <div className="m-3" />
       <Link href="/admin/admin">Visit admin protected route</Link>
       <div className="m-3" />
-
       <Link href="/admin/hello">Visit protected route</Link>
+      <div className="m-3" />
+      <Link href="/api/user/getUser">Visit getUser route</Link>
       <FilterHome />
       <div className="py-2" />
       <Pagination />

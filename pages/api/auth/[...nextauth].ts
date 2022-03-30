@@ -20,17 +20,13 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+  // jwt: {
+  //   secret: process.env.NEXT_AUTH_JWT_SECRET,
+  // },
+
   callbacks: {
-    async jwt({ token, account }) {
-      // Persist the OAuth access_token to the token right after signin
-      if (account) {
-        token.accessToken = account.access_token;
-      }
-      return token;
-    },
     async session({ session, user, token }) {
-      session.user.role = user.role;
-      // session.accessToken = token.accessToken;
+      session.role = user.role;
       return session;
     },
   },

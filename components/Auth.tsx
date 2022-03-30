@@ -24,7 +24,15 @@ const Auth = ({ children, component }: Props) => {
   }, [isUser, status]);
 
   if (component?.auth?.checkAdmin) {
-    // if (component?.auth?.role === session?.user?.role) return children;
+    if (component?.auth?.role === session?.role) {
+      return children;
+    } else {
+      return (
+        <h1 className="text-lg font-bold mt-8">
+          You do not have permissions to visit this page.
+        </h1>
+      );
+    }
   }
 
   if (isUser) {

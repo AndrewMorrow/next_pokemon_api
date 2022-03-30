@@ -1,7 +1,6 @@
 import React from "react";
 
-const Hello = (props: any) => {
-  console.log(props);
+const Hello = () => {
   return <div>Hello</div>;
 };
 
