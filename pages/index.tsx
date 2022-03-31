@@ -41,8 +41,8 @@ const Home: NextPage<Props> = ({ pokemonProps }) => {
     (state) => state.pagination
   );
 
-  const { data: session } = useSession();
-  console.log(session);
+  // const { data: session } = useSession();
+  // console.log(session);
   // const state = useStore((state) => state);
 
   useEffect(() => {

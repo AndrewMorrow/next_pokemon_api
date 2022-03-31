@@ -1,6 +1,6 @@
 import { getProviders, signIn, getCsrfToken } from "next-auth/react";
 import Router, { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Key } from "readline";
 import { AuthenticationError } from "../../components/AuthenticationError";
 import { Errors } from "../../components/AuthenticationError";
@@ -37,7 +37,7 @@ const SignIn = ({
       {error && <AuthenticationError error={error as keyof Errors} />}
       <div className="w-3/4 sm:w-1/2 lg:1/3 flex flex-col gap-6 items-center">
         {Object.values(providers).map((provider: any, i) => (
-          <>
+          <React.Fragment key={provider.name}>
             {provider.name === "Email" ? (
               <div key={provider.name} className="w-full lg:w-3/4">
                 <form
@@ -71,7 +71,7 @@ const SignIn = ({
                 </form>
               </div>
             ) : (
-              <div className="text-center">
+              <div key={provider.name} className="text-center">
                 <button
                   onClick={() => signIn(provider.id, { callbackUrl: "/" })}
                   className="inline-flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 "
@@ -88,7 +88,7 @@ const SignIn = ({
             {i !== Object.values(providers).length - 1 && (
               <span className="text-center text-lg font-semibold">or</span>
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
     </main>

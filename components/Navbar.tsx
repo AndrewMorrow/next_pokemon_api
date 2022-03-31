@@ -5,7 +5,7 @@ import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import pokeballIcon from "../public/assets/images/pokeball.png";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 const navigation = [
   { name: "Home", href: "/", current: true },
   // { name: "My Teams", href: "#", current: false },
@@ -18,6 +18,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function Navbar() {
+  const { data: session, status } = useSession();
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }: { open: boolean }) => (
@@ -66,19 +67,23 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 gap-4">
-                <Link href="/api/auth/signin" passHref>
-                  <a className="hidden sm:inline-flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
-                    Sign In
-                  </a>
-                </Link>
-                <Link href="/api/auth/signin" passHref>
-                  <a
-                    className=" py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hidden sm:inline-flex"
-                    onClick={() => signOut()}
-                  >
-                    Sign Out
-                  </a>
-                </Link>
+                {status === "authenticated" ? (
+                  <Link href="/api/auth/signin" passHref>
+                    <a
+                      className=" py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hidden sm:inline-flex"
+                      onClick={() => signOut()}
+                    >
+                      Sign Out
+                    </a>
+                  </Link>
+                ) : (
+                  <Link href="/api/auth/signin" passHref>
+                    <a className="hidden sm:inline-flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
+                      Sign In
+                    </a>
+                  </Link>
+                )}
+
                 {/* Profile dropdown */}
                 {/* <Menu as="div" className="ml-3 relative">
                   <div>
@@ -165,23 +170,26 @@ export default function Navbar() {
                   </Disclosure.Button>
                 </Link>
               ))}
-              <Link href="/api/auth/signin" passHref>
-                <Disclosure.Button
-                  as="a"
-                  className="block py-2 px-4 border border-transparent shadow-sm  font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-center text-base"
-                >
-                  Sign In
-                </Disclosure.Button>
-              </Link>
-              <Link href="/api/auth/signin" passHref>
-                <Disclosure.Button
-                  as="a"
-                  className=" py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 block text-center text-base"
-                  onClick={() => signOut()}
-                >
-                  Sign Out
-                </Disclosure.Button>
-              </Link>
+              {status === "authenticated" ? (
+                <Link href="/api/auth/signin" passHref>
+                  <Disclosure.Button
+                    as="a"
+                    className=" py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 block text-center text-base"
+                    onClick={() => signOut()}
+                  >
+                    Sign Out
+                  </Disclosure.Button>
+                </Link>
+              ) : (
+                <Link href="/api/auth/signin" passHref>
+                  <Disclosure.Button
+                    as="a"
+                    className="block py-2 px-4 border border-transparent shadow-sm  font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-center text-base"
+                  >
+                    Sign In
+                  </Disclosure.Button>
+                </Link>
+              )}
             </div>
           </Disclosure.Panel>
         </>
