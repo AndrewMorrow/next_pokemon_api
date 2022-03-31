@@ -60,7 +60,7 @@ const Home: NextPage<Props> = ({ pokemonProps }) => {
       <FilterHome />
       <div className="py-2" />
       <Pagination />
-      <section className="flex items-center justify-around  flex-wrap my-10">
+      <section className="flex items-center justify-around gap-6 flex-wrap my-10">
         {filterInput
           ? filteredPokemon
               ?.slice(sliceAmount, sliceAmount + amountPerPage)

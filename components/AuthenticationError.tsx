@@ -23,10 +23,12 @@ const errors: Errors = {
   EmailSignin: "Please check your email address.",
   CredentialsSignin:
     "Sign in failed. Check the details you provided are correct.",
-  default: "Unable to sign in.",
+  default: "Please try to sign in.",
 };
 
 export const AuthenticationError = ({ error }: { error: keyof Errors }) => {
   const errorMessage = error && (errors[error] ?? errors.default);
-  return <div>{errorMessage}</div>;
+  return (
+    <div className="bg-red-200 p-4 rounded-md my-6 h-14">{errorMessage}</div>
+  );
 };

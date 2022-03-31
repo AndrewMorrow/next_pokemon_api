@@ -34,7 +34,11 @@ const SignIn = ({
 
   return (
     <main className="flex flex-col items-center py-10  ">
-      {error && <AuthenticationError error={error as keyof Errors} />}
+      {error ? (
+        <AuthenticationError error={error as keyof Errors} />
+      ) : (
+        <div className="p-4 invisible my-6 h-14" />
+      )}
       <div className="w-3/4 sm:w-1/2 lg:1/3 flex flex-col gap-6 items-center">
         {Object.values(providers).map((provider: any, i) => (
           <React.Fragment key={provider.name}>

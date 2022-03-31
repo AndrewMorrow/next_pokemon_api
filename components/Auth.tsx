@@ -24,6 +24,7 @@ const Auth = ({ children, component }: Props) => {
   }, [isUser, status]);
 
   if (component?.auth?.checkAdmin) {
+    if (!isUser) signIn();
     if (component?.auth?.role === session?.role) {
       return children;
     } else {
