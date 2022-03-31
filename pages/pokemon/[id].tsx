@@ -43,8 +43,12 @@ export async function getStaticProps(context: any) {
 
 const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   // console.log(pokemon);
+
+  const handleAddToTeam = async () => {
+    // fetch api route to save pokemon to team
+  };
   return (
-    <div className="md:grid grid-cols-2 my-10">
+    <div className="md:grid grid-cols-2 gap-10 my-10">
       <div className="mb-4 md:mb-0">
         <h1 className="text-2xl font-bold ">{pokemon?.name}</h1>
         <Image
@@ -88,6 +92,12 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
             </ul>
           </div>
         </div>
+        <button
+          onClick={() => handleAddToTeam()}
+          className="mt-8 p-2 bg-gray-800 text-white rounded-md"
+        >
+          Add to team
+        </button>
       </div>
     </div>
   );
