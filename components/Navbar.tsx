@@ -5,6 +5,7 @@ import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import pokeballIcon from "../public/assets/images/pokeball.png";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 const navigation = [
   { name: "Home", href: "/", current: true },
   // { name: "My Teams", href: "#", current: false },
@@ -64,7 +65,20 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 gap-4">
+                <Link href="/api/auth/signin" passHref>
+                  <a className="hidden sm:inline-flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
+                    Sign In
+                  </a>
+                </Link>
+                <Link href="/api/auth/signin" passHref>
+                  <a
+                    className=" py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hidden sm:inline-flex"
+                    onClick={() => signOut()}
+                  >
+                    Sign Out
+                  </a>
+                </Link>
                 {/* Profile dropdown */}
                 {/* <Menu as="div" className="ml-3 relative">
                   <div>
@@ -134,7 +148,7 @@ export default function Navbar() {
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+            <div className="px-2 pt-2 pb-3 flex flex-col gap-4">
               {navigation.map((item) => (
                 <Link key={item.name} href={item.href} passHref>
                   <Disclosure.Button
@@ -143,7 +157,7 @@ export default function Navbar() {
                       item.current
                         ? "bg-gray-900 text-white"
                         : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "block px-3 py-2 rounded-md text-base font-medium"
+                      "block px-4 py-2 rounded-md text-base font-medium"
                     )}
                     aria-current={item.current ? "page" : undefined}
                   >
@@ -151,6 +165,23 @@ export default function Navbar() {
                   </Disclosure.Button>
                 </Link>
               ))}
+              <Link href="/api/auth/signin" passHref>
+                <Disclosure.Button
+                  as="a"
+                  className="block py-2 px-4 border border-transparent shadow-sm  font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-center text-base"
+                >
+                  Sign In
+                </Disclosure.Button>
+              </Link>
+              <Link href="/api/auth/signin" passHref>
+                <Disclosure.Button
+                  as="a"
+                  className=" py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 block text-center text-base"
+                  onClick={() => signOut()}
+                >
+                  Sign Out
+                </Disclosure.Button>
+              </Link>
             </div>
           </Disclosure.Panel>
         </>

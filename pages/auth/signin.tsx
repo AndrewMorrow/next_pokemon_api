@@ -33,13 +33,13 @@ const SignIn = ({
   }, [error, router]);
 
   return (
-    <main className="flex flex-col items-center py-10 content-center ">
+    <main className="flex flex-col items-center py-10  ">
       {error && <AuthenticationError error={error as keyof Errors} />}
-      <div className="w-3/4 sm:w-1/2 lg:1/3 flex flex-col gap-6">
+      <div className="w-3/4 sm:w-1/2 lg:1/3 flex flex-col gap-6 items-center">
         {Object.values(providers).map((provider: any, i) => (
           <>
             {provider.name === "Email" ? (
-              <div key={provider.name}>
+              <div key={provider.name} className="w-full lg:w-3/4">
                 <form
                   method="post"
                   action="/api/auth/signin/email"

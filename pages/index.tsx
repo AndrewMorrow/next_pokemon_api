@@ -56,17 +56,7 @@ const Home: NextPage<Props> = ({ pokemonProps }) => {
         <title>Gotta Query Em All</title>
         <meta name="description" content="Pokemon Next app with Zustand" />
       </Head>
-      <Link href="/api/auth/signin">Sign In</Link>
-      <button className="m-5" onClick={() => signOut()}>
-        Sign Out
-      </button>
-      <Link href="/api/auth/session">Check Session</Link>
-      <div className="m-3" />
-      <Link href="/admin/admin">Visit admin protected route</Link>
-      <div className="m-3" />
-      <Link href="/admin/hello">Visit protected route</Link>
-      <div className="m-3" />
-      <Link href="/api/user/getUser">Visit getUser route</Link>
+
       <FilterHome />
       <div className="py-2" />
       <Pagination />
