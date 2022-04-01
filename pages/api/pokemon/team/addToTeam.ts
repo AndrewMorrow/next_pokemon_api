@@ -20,21 +20,21 @@ export default async function handler(
     },
   });
   console.log(team);
-  // if (team) {
-  //   const updateTeam = await prisma.user.update({
-  //     where: {
-  //       id: user?.id,
-  //     },
-  //     data: {
-  //       teams: {
-  //         where: {
-  //           name: req.body.teamName,
-  //         },
-  //       },
-  //     },
-  //   });
-  //   // console.log(" user", user);
-
-  //   res.status(200).json(newTeam);
-  // }
+  if (team) {
+    const updateTeam = await prisma.pokemonOnTeams.create({
+      data: {
+        pokemon: {
+          connect: {
+            id: req.body.pokemonId,
+          },
+        },
+        team: {
+          connect: {
+            id: team.id,
+          },
+        },
+      },
+    });
+    res.status(200).json(updateTeam);
+  }
 }

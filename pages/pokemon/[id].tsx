@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import { prisma } from "../../src/prismaConnect";
 import { Pokemon } from "../../src/globalTypes";
+import { useSession } from "next-auth/react";
 
 export async function getStaticPaths() {
   const pokemonData = await prisma.pokemon.findMany({});
@@ -43,10 +44,23 @@ export async function getStaticProps(context: any) {
 
 const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   // console.log(pokemon);
+  const { data: session, status } = useSession();
 
   const handleAddToTeam = async () => {
     // fetch api route to save pokemon to team
+    const data = {
+      pokemonId: pokemon.id,
+      name: "meowth",
+    };
+    const res = await fetch("/api/pokemon/team/addToTeam", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
   };
+
   return (
     <div className="md:grid grid-cols-2 gap-10 my-10">
       <div className="mb-4 md:mb-0">
@@ -92,12 +106,14 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
             </ul>
           </div>
         </div>
-        <button
-          onClick={() => handleAddToTeam()}
-          className="mt-8 p-2 bg-gray-800 text-white rounded-md"
-        >
-          Add to team
-        </button>
+        {status === "authenticated" && (
+          <button
+            onClick={() => handleAddToTeam()}
+            className="mt-8 p-2 bg-gray-800 text-white rounded-md"
+          >
+            Add to team
+          </button>
+        )}
       </div>
     </div>
   );
