@@ -16,7 +16,7 @@ export default async function handler(
   const user = await prisma.user.findUnique({
     where: { email: String(session?.user?.email) },
   });
-
+  console.log("teamName", req.body.teamName);
   if (user?.id) {
     const newTeam = await prisma.user.update({
       where: {
