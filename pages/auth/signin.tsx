@@ -77,7 +77,9 @@ const SignIn = ({
             ) : (
               <div key={provider.name} className="text-center">
                 <button
-                  onClick={() => signIn(provider.id, { callbackUrl: "/" })}
+                  onClick={() =>
+                    signIn(provider.id, { callbackUrl: "/user/dashboard" })
+                  }
                   className="inline-flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 "
                 >
                   Sign in with {provider.name}{" "}
