@@ -56,7 +56,7 @@ const Home: NextPage<Props> = ({ pokemonProps }) => {
         <title>Gotta Query Em All</title>
         <meta name="description" content="Pokemon Next app with Zustand" />
       </Head>
-
+      <a href="/api/pokemon/team/addToTeam">test add to team</a>
       <FilterHome />
       <div className="py-2" />
       <Pagination />

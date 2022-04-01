@@ -13,8 +13,8 @@ datasource db {
 }
 
 model Pokemon {
-  id              Int    @id @unique
-  name            String @unique @db.VarChar(255)
+  id              Int              @id @unique
+  name            String           @unique @db.VarChar(255)
   japanese_name   String
   chinese_name    String
   french_name     String
@@ -26,6 +26,7 @@ model Pokemon {
   special_attack  Int
   special_defense Int
   speed           Int
+  pokemonOnTeam   PokemonOnTeams[]
 
   // Relations
   primaryTypeRelation   Type  @relation("primary_type", fields: [primary_type], references: [id])
@@ -81,6 +82,7 @@ model User {
   role          String    @default("user")
   accounts      Account[]
   sessions      Session[]
+  teams         Team[]
 }
 
 model VerificationToken {
@@ -89,4 +91,20 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Team {
+  id      Int              @id @default(autoincrement())
+  name    String
+  userId  String
+  user    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pokemon PokemonOnTeams[]
+}
+
+model PokemonOnTeams {
+  id        Int     @id @default(autoincrement())
+  teamId    Int
+  pokemonId Int
+  team      Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
 }

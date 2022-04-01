@@ -17,8 +17,17 @@ export default async function handler(
     where: { email: String(session?.user?.email) },
   });
 
-  // const newTeam = await prisma.team.create({ })
-  console.log(" user", user);
+  // const newTeam = await prisma.user.update({ where: { id: user?.id }, data: { team: { create: { name: "test" } } } });
+  // const newTeam = await prisma.team.create({
+  //   data: {
+  //     name: "test",
+  //    pokemon:{
+  //      connect:{
+  //         id: "ck7q5q7x0kqxk0170jqjqjqj"
+  //      }
+  //    }
+  //   },
+  // });
 
-  res.status(200).json({ name: "John Doe" });
+  res.status(200).json(newTeam);
 }
