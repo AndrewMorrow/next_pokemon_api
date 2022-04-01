@@ -65,12 +65,12 @@ const Home: NextPage<Props> = ({ pokemonProps }) => {
           ? filteredPokemon
               ?.slice(sliceAmount, sliceAmount + amountPerPage)
               .map((pokemon: Pokemon) => (
-                <PokemonCard key={pokemon.id} pokemon={pokemon} />
+                <PokemonCard key={pokemon.id} pokemon={pokemon} size={300} />
               ))
           : pokemonArr
               ?.slice(sliceAmount, sliceAmount + amountPerPage)
               .map((pokemon: Pokemon) => (
-                <PokemonCard key={pokemon.id} pokemon={pokemon} />
+                <PokemonCard key={pokemon.id} pokemon={pokemon} size={300} />
               ))}
       </section>
       <Pagination />

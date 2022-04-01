@@ -4,12 +4,10 @@ import React, { useEffect, useState } from "react";
 import pokemonData from "../src/pokemonData.json";
 import { Pokemon } from "../src/globalTypes";
 
-export const PokemonCard = (props: { pokemon: Pokemon; size: number }) => {
+export const PokemonTeamCard = (props: { pokemon: Pokemon; size: number }) => {
   return (
-    <div className="mb-10">
-      <h1 className="text-2xl font-bold text-center mb-4">
-        {props?.pokemon?.name}
-      </h1>
+    <div className="">
+      <h1 className=" font-semibold text-center mb-2">{props?.pokemon?.name}</h1>
 
       <Link href={`/pokemon/${props?.pokemon?.id}`} passHref>
         <span className="cursor-pointer">
@@ -25,4 +23,4 @@ export const PokemonCard = (props: { pokemon: Pokemon; size: number }) => {
   );
 };
 
-export default PokemonCard;
+export default PokemonTeamCard;
