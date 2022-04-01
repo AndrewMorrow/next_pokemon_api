@@ -12,22 +12,25 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getSession({ req });
-  console.log("session", session);
+  // console.log("session", session);
   const user = await prisma.user.findUnique({
     where: { email: String(session?.user?.email) },
   });
 
-  // const newTeam = await prisma.user.update({ where: { id: user?.id }, data: { team: { create: { name: "test" } } } });
-  // const newTeam = await prisma.team.create({
-  //   data: {
-  //     name: "test",
-  //    pokemon:{
-  //      connect:{
-  //         id: "ck7q5q7x0kqxk0170jqjqjqj"
-  //      }
-  //    }
-  //   },
-  // });
+  if (user?.id) {
+    const newTeam = await prisma.user.update({
+      where: {
+        id: user?.id,
+      },
+      data: {
+        teams: {
+          create: {
+            name: req.body.teamName,
+          },
+        },
+      },
+    });
 
-  res.status(200).json(newTeam);
+    res.status(200).json(newTeam);
+  }
 }

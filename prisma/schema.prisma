@@ -94,8 +94,8 @@ model VerificationToken {
 }
 
 model Team {
-  id      Int              @id @default(autoincrement())
-  name    String
+  id      Int              @id @unique @default(autoincrement())
+  name    String           @unique
   userId  String
   user    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   pokemon PokemonOnTeams[]

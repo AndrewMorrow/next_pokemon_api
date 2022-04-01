@@ -13,25 +13,28 @@ export default async function handler(
 ) {
   const session = await getSession({ req });
 
-  const user = await prisma.user.findUnique({
-    where: { email: String(session?.user?.email) },
+  const team = await prisma.team.findUnique({
+    where: { name: req.body.name },
+    include: {
+      pokemon: true,
+    },
   });
+  console.log(team);
+  // if (team) {
+  //   const updateTeam = await prisma.user.update({
+  //     where: {
+  //       id: user?.id,
+  //     },
+  //     data: {
+  //       teams: {
+  //         where: {
+  //           name: req.body.teamName,
+  //         },
+  //       },
+  //     },
+  //   });
+  //   // console.log(" user", user);
 
-  if (user?.id) {
-    const newTeam = await prisma.user.update({
-      where: {
-        id: user?.id,
-      },
-      data: {
-        teams: {
-          create: {
-            name: req.body.teamName,
-          },
-        },
-      },
-    });
-    console.log(" user", user);
-
-    res.status(200).json(newTeam);
-  }
+  //   res.status(200).json(newTeam);
+  // }
 }
