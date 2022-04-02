@@ -1,8 +1,9 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { prisma } from "../../src/prismaConnect";
 import { Pokemon } from "../../src/globalTypes";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import TeamModal from "../../components/TeamModal";
 
 export async function getStaticPaths() {
   const pokemonData = await prisma.pokemon.findMany({});
@@ -45,20 +46,39 @@ export async function getStaticProps(context: any) {
 const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   // console.log(pokemon);
   const { data: session, status } = useSession();
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [teamSelected, setTeamSelected] = React.useState(null);
+  const [userTeams, setUserTeams] = React.useState(null);
+
+  useEffect(() => {
+    const getUserTeams = async () => {
+      const res = await fetch("/api/user/getUserTeams");
+      const data = await res.json();
+      setUserTeams(data.userTeams);
+    };
+    if (!userTeams) {
+      getUserTeams();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleAddToTeam = async () => {
     // fetch api route to save pokemon to team
-    const data = {
-      pokemonId: pokemon.id,
-      name: "meowth",
-    };
-    const res = await fetch("/api/pokemon/team/addToTeam", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    setModalIsOpen(true);
+    if (teamSelected) {
+      const data = {
+        pokemonId: pokemon.id,
+        name: teamSelected,
+      };
+      await fetch("/api/pokemon/team/addToTeam", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      setTeamSelected(null);
+    }
   };
 
   return (
@@ -115,6 +135,13 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
           </button>
         )}
       </div>
+      <TeamModal
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+        session={session}
+        setTeamSelected={setTeamSelected}
+        userTeams={userTeams}
+      />
     </div>
   );
 };

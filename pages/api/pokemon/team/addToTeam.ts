@@ -12,7 +12,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getSession({ req });
-
+console.log(req.body.name)
   const team = await prisma.team.findUnique({
     where: { name: req.body.name },
     include: {
