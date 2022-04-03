@@ -15,25 +15,25 @@ import Link from "next/link";
 
 import { signOut } from "next-auth/react";
 
-export async function getStaticProps(context: any) {
-  const pokemonData = await prisma.pokemon.findMany({
-    include: {
-      primaryTypeRelation: true,
-      secondaryTypeRelation: true,
-    },
-  });
+// export async function getStaticProps(context: any) {
+//   const pokemonData = await prisma.pokemon.findMany({
+//     include: {
+//       primaryTypeRelation: true,
+//       secondaryTypeRelation: true,
+//     },
+//   });
 
-  return {
-    props: {
-      pokemonProps: pokemonData,
-    }, // will be passed to the page component as props
-  };
-}
-interface Props {
-  pokemonProps: [Pokemon];
-}
+//   return {
+//     props: {
+//       pokemonProps: pokemonData,
+//     }, // will be passed to the page component as props
+//   };
+// }
+// interface Props {
+//   pokemonProps: [Pokemon];
+// }
 
-const Home: NextPage<Props> = ({ pokemonProps }) => {
+const Home: NextPage = () => {
   const { setPokemon, filteredPokemon, filterInput, pokemonArr } = useStore(
     (state) => state.pokemon
   );
@@ -44,11 +44,6 @@ const Home: NextPage<Props> = ({ pokemonProps }) => {
   // const { data: session } = useSession();
   // console.log(session);
   // const state = useStore((state) => state);
-
-  useEffect(() => {
-    pokemonArr?.length === 0 && setPokemon(pokemonProps);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>

@@ -52,6 +52,7 @@ const Dashboard = ({ userTeams }: { userTeams: any }) => {
     const data = await res.json();
     // console.log(data);
     setUserTeamList(data.userTeams);
+    if (teamName?.current?.value) teamName.current.value = "";
   };
 
   return (

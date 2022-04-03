@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { getSession } from "next-auth/react";
+import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import { prisma } from "../src/prismaConnect";
 
@@ -100,7 +101,7 @@ export default function TeamModal(props: {
                 </div>
 
                 <div className="mt-4 flex-col flex flex-wrap gap-4">
-                  {userTeams.length > 0 &&
+                  {userTeams.length > 0 ? (
                     userTeams?.map((team: any) => (
                       <button
                         key={team.id}
@@ -111,7 +112,20 @@ export default function TeamModal(props: {
                           {team.name}
                         </h1>
                       </button>
-                    ))}
+                    ))
+                  ) : (
+                    <>
+                      <h1>
+                        You currently have no teams. Visit your dashboard to add
+                        a team.
+                      </h1>
+                      <Link href="/user/dashboard">
+                        <a className="text-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-300">
+                          Go to Dashboard
+                        </a>
+                      </Link>
+                    </>
+                  )}
                   {/* <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
