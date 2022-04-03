@@ -7,18 +7,46 @@ export default function TeamModal(props: {
   modalIsOpen: boolean;
   setModalIsOpen: Function;
   session: any;
-  userTeams?: any;
-  setTeamSelected: Function;
+  pokemon: any;
 }) {
-  // let [isOpen, setIsOpen] = useState(props.modalIsOpen);
+  const [userTeams, setUserTeams] = useState([]);
+
+  useEffect(() => {
+    const getUserTeams = async () => {
+      const res = await fetch("/api/user/getUserTeams");
+      const data = await res.json();
+      setUserTeams(data.userTeams.teams);
+    };
+    if (userTeams.length === 0) {
+      getUserTeams();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function closeModal() {
     props.setModalIsOpen(false);
   }
 
-  const handleTeamSelect = async (teamName: string) => {
-    props.setTeamSelected(teamName);
-    closeModal();
+  const handleAddToTeam = async (teamName: string) => {
+    // fetch api route to save pokemon to team
+    if (teamName) {
+      const data = {
+        pokemonId: props.pokemon.id,
+        name: teamName,
+      };
+      await fetch("/api/pokemon/team/addToTeam", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    }
+  };
+
+  const handleTeamSelect = (teamName: string) => {
+    props.setModalIsOpen(false);
+    handleAddToTeam(teamName);
   };
 
   return (
@@ -71,18 +99,19 @@ export default function TeamModal(props: {
                   </p>
                 </div>
 
-                <div className="mt-4 flex-col sm:flex flex-wrap gap-4">
-                  {props.userTeams?.teams?.map((team: any) => (
-                    <button
-                      key={team.id}
-                      className="shadow-md rounded-md"
-                      onClick={() => handleTeamSelect(team.name)}
-                    >
-                      <h1 className=" justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-300">
-                        {team.name}
-                      </h1>
-                    </button>
-                  ))}
+                <div className="mt-4 flex-col flex flex-wrap gap-4">
+                  {userTeams.length > 0 &&
+                    userTeams?.map((team: any) => (
+                      <button
+                        key={team.id}
+                        className="shadow-md rounded-md"
+                        onClick={() => handleTeamSelect(team.name)}
+                      >
+                        <h1 className=" justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-300">
+                          {team.name}
+                        </h1>
+                      </button>
+                    ))}
                   {/* <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"

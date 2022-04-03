@@ -47,39 +47,6 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   // console.log(pokemon);
   const { data: session, status } = useSession();
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
-  const [teamSelected, setTeamSelected] = React.useState(null);
-  const [userTeams, setUserTeams] = React.useState(null);
-
-  useEffect(() => {
-    const getUserTeams = async () => {
-      const res = await fetch("/api/user/getUserTeams");
-      const data = await res.json();
-      setUserTeams(data.userTeams);
-    };
-    if (!userTeams) {
-      getUserTeams();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleAddToTeam = async () => {
-    // fetch api route to save pokemon to team
-    setModalIsOpen(true);
-    if (teamSelected) {
-      const data = {
-        pokemonId: pokemon.id,
-        name: teamSelected,
-      };
-      await fetch("/api/pokemon/team/addToTeam", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      setTeamSelected(null);
-    }
-  };
 
   return (
     <div className="md:grid grid-cols-2 gap-10 my-10">
@@ -128,7 +95,7 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
         </div>
         {status === "authenticated" && (
           <button
-            onClick={() => handleAddToTeam()}
+            onClick={() => setModalIsOpen(true)}
             className="mt-8 p-2 bg-gray-800 text-white rounded-md"
           >
             Add to team
@@ -139,8 +106,7 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}
         session={session}
-        setTeamSelected={setTeamSelected}
-        userTeams={userTeams}
+        pokemon={pokemon}
       />
     </div>
   );
