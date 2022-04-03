@@ -15,7 +15,7 @@ interface Props {
 
 const Auth = ({ children, component }: Props) => {
   const { data: session, status } = useSession({ required: true });
-  console.log(session);
+  // console.log(session);
 
   const isUser = !!session?.user;
   React.useEffect(() => {

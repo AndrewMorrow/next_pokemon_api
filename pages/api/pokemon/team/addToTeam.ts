@@ -12,14 +12,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getSession({ req });
-  console.log("teamName", req.body.name);
   const team = await prisma.team.findUnique({
     where: { name: req.body.name },
     include: {
       pokemon: true,
     },
   });
-  console.log(team);
+
   if (team) {
     const updateTeam = await prisma.pokemonOnTeams.create({
       data: {

@@ -33,12 +33,10 @@ const Dashboard = ({ userTeams }: { userTeams: any }) => {
   const teamName = useRef<HTMLInputElement>(null);
 
   const [userTeamList, setUserTeamList] = useState(userTeams);
-  // console.log("userTeams", userTeams);
 
   if (!session) return <h1>You are not logged in</h1>;
   const { user } = session;
   const handlecreateNewTeam = async () => {
-    // console.log(teamName.current?.value);
     if (teamName?.current?.value === "" && !teamName.current) return;
     await fetch("/api/pokemon/team/createTeam", {
       method: "POST",
@@ -50,7 +48,7 @@ const Dashboard = ({ userTeams }: { userTeams: any }) => {
 
     const res = await fetch("/api/user/getUserTeams");
     const data = await res.json();
-    // console.log(data);
+
     setUserTeamList(data.userTeams);
     if (teamName?.current?.value) teamName.current.value = "";
   };
@@ -60,7 +58,7 @@ const Dashboard = ({ userTeams }: { userTeams: any }) => {
       <h1 className="text-center font-bold text-2xl py-4">
         {user?.name ? user?.name : user?.email}`s Dashboard
       </h1>
-      <div className="sm:flex gap-10">
+      <div className="sm:flex gap-10 lg:gap-16">
         <div className="">
           <h2 className="block font-bold text-xl pt-4 mb-2">
             Create a new team
@@ -89,14 +87,20 @@ const Dashboard = ({ userTeams }: { userTeams: any }) => {
         </div>
         <div className="flex-grow">
           <h2 className="block font-bold text-xl pt-4 mb-4">My Teams</h2>
-          {userTeamList?.teams?.map((team: any) => (
-            <div key={team.id} className="shadow-md rounded-md">
-              <h1 className="text-center font-semibold text-xl bg-gray-800 text-white p-1 rounded-tl-md rounded-tr-md">
-                {team.name}
-              </h1>
-              <Team team={team.pokemon} />
-            </div>
-          ))}
+          {userTeamList?.teams?.length > 0 ? (
+            userTeamList?.teams?.map((team: any) => (
+              <div key={team.id} className="shadow-md rounded-md">
+                <h1 className="text-center font-semibold text-xl bg-gray-800 text-white p-1 rounded-tl-md rounded-tr-md">
+                  {team.name}
+                </h1>
+                <Team team={team.pokemon} />
+              </div>
+            ))
+          ) : (
+            <h2>
+              You currently have no teams. Try adding a new one to get started.
+            </h2>
+          )}
         </div>
       </div>
     </main>
