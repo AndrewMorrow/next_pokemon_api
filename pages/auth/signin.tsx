@@ -21,20 +21,20 @@ const SignIn = ({
   providers: any;
   csrfToken: any;
 }) => {
-  // const { error } = useRouter().query;
+  const { error } = useRouter().query;
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (error) {
-  //     setTimeout(() => {
-  //       router.replace("/auth/signin", undefined, { shallow: true });
-  //     }, 3000);
-  //   }
-  // }, [error, router]);
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        router.replace("/auth/signin", undefined, { shallow: true });
+      }, 3000);
+    }
+  }, [error, router]);
 
   return (
     <main className="flex flex-col items-center py-10  ">
-      {/* <AuthenticationError error={error as keyof Errors} /> */}
+      <AuthenticationError error={error as keyof Errors} />
       <div className="w-3/4 sm:w-1/2 lg:1/3 flex flex-col gap-6 items-center">
         {Object.values(providers).map((provider: any, i) => (
           <React.Fragment key={provider.name}>

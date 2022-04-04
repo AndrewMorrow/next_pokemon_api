@@ -26,7 +26,7 @@ const errors: Errors = {
   default: "Please try to sign in.",
 };
 
-export const AuthenticationError = ({ error }: { error: keyof Errors }) => {
+export const AuthenticationError = ({ error }: { error?: keyof Errors }) => {
   const errorMessage = error && (errors[error] ?? errors.default);
   return (
     <>
