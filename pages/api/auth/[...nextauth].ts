@@ -21,7 +21,6 @@ export default NextAuth({
   ],
   pages: {
     signIn: "/auth/signin",
-    error: "/auth/error",
   },
   // theme: {
   //   colorScheme: "dark",
