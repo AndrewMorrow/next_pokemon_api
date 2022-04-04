@@ -29,6 +29,14 @@ const errors: Errors = {
 export const AuthenticationError = ({ error }: { error: keyof Errors }) => {
   const errorMessage = error && (errors[error] ?? errors.default);
   return (
-    <div className="bg-red-200 p-4 rounded-md my-6 h-14">{errorMessage}</div>
+    <>
+      {error ? (
+        <div className="bg-red-200 p-4 rounded-md my-6 h-14">
+          {errorMessage}
+        </div>
+      ) : (
+        <div className="p-4 invisible my-6 h-14" />
+      )}
+    </>
   );
 };
