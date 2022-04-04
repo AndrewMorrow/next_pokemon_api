@@ -1,19 +1,19 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+// import Image from "next/image";
+// import styles from "../styles/Home.module.css";
 import useStore from "../src/store";
 // import pokemonData from "../src/pokemonData.json";
 import PokemonCard from "../components/PokemonCard";
-import { Key, useEffect, useState } from "react";
+// import { Key, useEffect, useState } from "react";
 import FilterHome from "../components/FilterHome";
 import { Pokemon } from "../src/globalTypes";
-import { prisma } from "../src/prismaConnect";
+// import { prisma } from "../src/prismaConnect";
 import Pagination from "../components/Pagination";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
+// import { useSession } from "next-auth/react";
+// import Link from "next/link";
 
-import { signOut } from "next-auth/react";
+// import { signOut } from "next-auth/react";
 
 // export async function getStaticProps(context: any) {
 //   const pokemonData = await prisma.pokemon.findMany({

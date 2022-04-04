@@ -1,5 +1,4 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { getSession } from "next-auth/react";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import { prisma } from "../src/prismaConnect";
@@ -7,7 +6,6 @@ import { prisma } from "../src/prismaConnect";
 export default function TeamModal(props: {
   modalIsOpen: boolean;
   setModalIsOpen: Function;
-  session: any;
   pokemon: any;
 }) {
   const [userTeams, setUserTeams] = useState([]);

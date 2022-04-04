@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { prisma } from "../../src/prismaConnect";
 import { Pokemon } from "../../src/globalTypes";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import TeamModal from "../../components/TeamModal";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
@@ -111,7 +111,6 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
         <TeamModal
           modalIsOpen={modalIsOpen}
           setModalIsOpen={setModalIsOpen}
-          session={session}
           pokemon={pokemon}
         />
       </div>

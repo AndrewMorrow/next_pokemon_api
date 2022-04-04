@@ -68,14 +68,12 @@ export default function Navbar() {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 gap-4">
                 {status === "authenticated" ? (
-                  <Link href="/auth/signin" passHref>
-                    <a
-                      className=" py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hidden sm:inline-flex"
-                      onClick={() => signOut()}
-                    >
-                      Sign Out
-                    </a>
-                  </Link>
+                  <button
+                    className=" py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hidden sm:inline-flex"
+                    onClick={() => signOut()}
+                  >
+                    Sign Out
+                  </button>
                 ) : (
                   <Link href="/api/auth/signin" passHref>
                     <a className="hidden sm:inline-flex py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
@@ -154,15 +152,13 @@ export default function Navbar() {
                 </Link>
               ))}
               {status === "authenticated" ? (
-                <Link href="/api/auth/signin" passHref>
-                  <Disclosure.Button
-                    as="a"
-                    className=" py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 block text-center text-base"
-                    onClick={() => signOut()}
-                  >
-                    Sign Out
-                  </Disclosure.Button>
-                </Link>
+                <Disclosure.Button
+                  as="a"
+                  className=" py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 block text-center text-base"
+                  onClick={() => signOut()}
+                >
+                  Sign Out
+                </Disclosure.Button>
               ) : (
                 <Link href="/api/auth/signin" passHref>
                   <Disclosure.Button
