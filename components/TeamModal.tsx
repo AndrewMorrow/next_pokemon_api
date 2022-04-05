@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
-import { prisma } from "../src/prismaConnect";
+import ShowMessage from "./ShowMessage";
 
 export default function TeamModal(props: {
   modalIsOpen: boolean;
@@ -9,7 +9,15 @@ export default function TeamModal(props: {
   pokemon: any;
   setIsShown: Function;
 }) {
-  const [userTeams, setUserTeams] = useState([]);
+  interface UserTeams {
+    id: number;
+    name: string;
+    pokemon: any;
+  }
+
+  const [userTeams, setUserTeams] = useState<UserTeams[] | []>([]);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const getUserTeams = async () => {
@@ -29,22 +37,37 @@ export default function TeamModal(props: {
 
   const handleAddToTeam = async (teamName: string) => {
     // fetch api route to save pokemon to team
-    if (teamName) {
-      const data = {
-        pokemonId: props.pokemon.id,
-        name: teamName,
-      };
-      await fetch("/api/pokemon/team/addToTeam", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      props.setIsShown(true);
+
+    const foundTeam = userTeams?.find((team) => team.name === teamName);
+    console.log(foundTeam?.pokemon?.length);
+    if (foundTeam?.pokemon?.length > 5) {
+      setMessage("That team is currently full");
+      setShowMessage(true);
       setTimeout(() => {
-        props.setIsShown(false);
+        setShowMessage(false);
       }, 2500);
+      return;
+    } else {
+      if (teamName) {
+        const data = {
+          pokemonId: props.pokemon.id,
+          name: teamName,
+        };
+        await fetch("/api/pokemon/team/addToTeam", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+        props.setIsShown(true);
+        const res = await fetch("/api/user/getUserTeams");
+        const teamData = await res.json();
+        setUserTeams(teamData.userTeams.teams);
+        setTimeout(() => {
+          props.setIsShown(false);
+        }, 2500);
+      }
     }
   };
 
@@ -55,6 +78,18 @@ export default function TeamModal(props: {
 
   return (
     <>
+      <div
+        aria-live="assertive"
+        className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+      >
+        <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+          <ShowMessage
+            isShown={showMessage}
+            setIsShown={setShowMessage}
+            message={message}
+          />
+        </div>
+      </div>
       <Transition appear show={props.modalIsOpen} as={Fragment}>
         <Dialog
           as="div"
