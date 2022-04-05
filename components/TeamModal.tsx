@@ -7,6 +7,7 @@ export default function TeamModal(props: {
   modalIsOpen: boolean;
   setModalIsOpen: Function;
   pokemon: any;
+  setIsShown: Function;
 }) {
   const [userTeams, setUserTeams] = useState([]);
 
@@ -40,6 +41,10 @@ export default function TeamModal(props: {
         },
         body: JSON.stringify(data),
       });
+      props.setIsShown(true);
+      setTimeout(() => {
+        props.setIsShown(false);
+      }, 2500);
     }
   };
 

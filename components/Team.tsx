@@ -15,13 +15,9 @@ const Team = (props: any) => {
   return (
     <>
       <div className="flex flex-wrap gap-4 border rounded-br-md rounded-bl-md p-3 justify-around mb-4">
-        {teamPokemon.length > 0 ? (
+        {teamPokemon.length > 0 && filteredPokemon ? (
           teamPokemon.map((pokemon: any, i: number) => (
-            <PokemonTeamCard
-              key={pokemon.id + i}
-              pokemon={pokemon}
-              size={100}
-            />
+            <PokemonTeamCard key={i} pokemon={pokemon} size={100} />
           ))
         ) : (
           <>

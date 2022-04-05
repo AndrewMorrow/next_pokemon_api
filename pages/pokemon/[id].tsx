@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import TeamModal from "../../components/TeamModal";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
+import SuccessMessage from "../../components/SuccessMessage";
 
 export async function getStaticPaths() {
   const pokemonData = await prisma.pokemon.findMany({});
@@ -47,6 +48,7 @@ export async function getStaticProps(context: any) {
 const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   const { data: session, status } = useSession();
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [isShown, setIsShown] = React.useState(false);
 
   return (
     <>
@@ -112,7 +114,16 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
           modalIsOpen={modalIsOpen}
           setModalIsOpen={setModalIsOpen}
           pokemon={pokemon}
+          setIsShown={setIsShown}
         />
+      </div>
+      <div
+        aria-live="assertive"
+        className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+      >
+        <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+          <SuccessMessage isShown={isShown} setIsShown={setIsShown} />
+        </div>
       </div>
     </>
   );
