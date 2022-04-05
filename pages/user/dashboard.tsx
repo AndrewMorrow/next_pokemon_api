@@ -1,6 +1,7 @@
 import { AnyMap } from "immer/dist/internal";
 import { getSession, useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 import PokemonCard from "../../components/PokemonCard";
 import Team from "../../components/Team";
 import { prisma } from "../../src/prismaConnect";
@@ -36,6 +37,7 @@ const Dashboard = ({ userTeams }: { userTeams: any }) => {
 
   if (!session) return <h1>You are not logged in</h1>;
   const { user } = session;
+
   const handlecreateNewTeam = async () => {
     if (teamName?.current?.value === "" && !teamName.current) return;
     await fetch("/api/pokemon/team/createTeam", {
@@ -51,6 +53,21 @@ const Dashboard = ({ userTeams }: { userTeams: any }) => {
 
     setUserTeamList(data.userTeams);
     if (teamName?.current?.value) teamName.current.value = "";
+  };
+
+  const handleDeleteTeam = async (teamName: string) => {
+    await fetch("/api/team/deleteTeam", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ teamName }),
+    });
+
+    const res = await fetch("/api/user/getUserTeams");
+    const data = await res.json();
+
+    setUserTeamList(data.userTeams);
   };
 
   return (
@@ -90,10 +107,17 @@ const Dashboard = ({ userTeams }: { userTeams: any }) => {
           {userTeamList?.teams?.length > 0 ? (
             userTeamList?.teams?.map((team: any) => (
               <div key={team.id} className="shadow-md rounded-md">
-                <h1 className="text-center font-semibold text-xl bg-gray-800 text-white p-1 rounded-tl-md rounded-tr-md">
-                  {team.name}
-                </h1>
-                <Team team={team.pokemon} />
+                <div className="flex bg-gray-800 text-white rounded-tl-md rounded-tr-md justify-center relative">
+                  <h1 className=" font-semibold text-xl p-1 ">{team.name} </h1>
+                  <span
+                    title="deleteTeam"
+                    className="self-center absolute right-2 cursor-pointer"
+                    onClick={() => handleDeleteTeam(team.name)}
+                  >
+                    <FaTrashAlt />
+                  </span>
+                </div>
+                <Team team={team} setUserTeamList={setUserTeamList} />
               </div>
             ))
           ) : (
