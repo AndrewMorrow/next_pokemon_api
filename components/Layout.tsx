@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React, { useEffect } from "react";
 import useStore from "../src/store";
 import Navbar from "./Navbar";
@@ -19,6 +20,11 @@ export default function Layout({ children }: { children: any }) {
 
   return (
     <>
+      <Head>
+        <title>Gotta Query Em All</title>
+        <meta name="description" content="Pokemon Next app with Zustand" />
+      </Head>
+
       <Navbar />
       <main className="container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         {children}

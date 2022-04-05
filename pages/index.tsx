@@ -47,11 +47,6 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Gotta Query Em All</title>
-        <meta name="description" content="Pokemon Next app with Zustand" />
-      </Head>
-
       <FilterHome />
       <div className="py-2" />
       <Pagination />
