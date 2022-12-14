@@ -7,6 +7,7 @@ import TeamModal from "../../components/TeamModal";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
 import SuccessMessage from "../../components/SuccessMessage";
+import Head from "next/head";
 
 export async function getStaticPaths() {
   const pokemonData = await prisma.pokemon.findMany({});
@@ -52,6 +53,25 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
 
   return (
     <>
+      <Head>
+        <meta name="description" content={`${pokemon.name}`} />
+        <meta
+          name="keywords"
+          content="SimWin Sports, Digital Sports League, Fantasy Sports"
+        />
+        <meta property="og:title" content={`${pokemon.name}`} />
+        <meta property="og:description" content={`${pokemon.japanese_name}`} />
+        <meta
+          property="og:image"
+          content={`/assets/images/${pokemon?.name.toLowerCase()}.jpg`}
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          name="twitter:image"
+          content={`/assets/images/${pokemon?.name.toLowerCase()}.jpg`}
+        />
+      </Head>
       <Link href="/" passHref>
         <button className="flex items-center mt-2 p-2 bg-gray-800 text-white rounded-md">
           <FiArrowLeft className="mr-1" /> Return to Pokemon
