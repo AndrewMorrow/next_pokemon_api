@@ -54,13 +54,13 @@ const PokemonOverview = ({ pokemon }: { pokemon: Pokemon }) => {
   return (
     <>
       <Head>
-        <meta name="description" content={`${pokemon.name}`} />
+        <meta name="description" content={`${pokemon?.name}`} />
         <meta
           name="keywords"
           content="SimWin Sports, Digital Sports League, Fantasy Sports"
         />
-        <meta property="og:title" content={`${pokemon.name}`} />
-        <meta property="og:description" content={`${pokemon.japanese_name}`} />
+        <meta property="og:title" content={`${pokemon?.name}`} />
+        <meta property="og:description" content={`${pokemon?.japanese_name}`} />
         <meta
           property="og:image"
           content={`/assets/images/${pokemon?.name.toLowerCase()}.jpg`}
